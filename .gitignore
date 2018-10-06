@@ -1,5 +1,6 @@
 keys/client*
 keys/credentials
+keys/betfair_app_token
 
 .bundle
 vendor/bundle
