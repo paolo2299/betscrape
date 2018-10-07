@@ -4,3 +4,5 @@ keys/betfair_app_token
 
 .bundle
 vendor/bundle
+
+test.rb
