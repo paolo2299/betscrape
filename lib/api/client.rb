@@ -10,7 +10,7 @@ module API
     KEYS_FOLDER = "#{File.expand_path('.')}/keys".freeze
 
     base_uri "https://api.betfair.com/exchange/betting/rest/v1.0/"
-    #debug_output $stdout
+    debug_output $stdout
 
     def self.list_event_types(market_filter = {})
       request('listEventTypes', {filter: market_filter})
