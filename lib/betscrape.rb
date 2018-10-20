@@ -1,5 +1,7 @@
 require_relative 'betscrape/api/client'
 require_relative 'betscrape/api/login_client'
+require_relative 'betscrape/api/logger'
+
 require_relative 'betscrape/models/competition'
 require_relative 'betscrape/models/country'
 require_relative 'betscrape/models/event_type'
@@ -16,3 +18,5 @@ require_relative 'betscrape/models/market_book/match_projection'
 require_relative 'betscrape/models/market_runner'
 require_relative 'betscrape/models/market_runner/best_offer'
 require_relative 'betscrape/models/market_runner/best_offers'
+
+require_relative 'betscrape/scrape/competition_scraper'

@@ -2,9 +2,9 @@ module Models
   class Market
     class MissingProjectionError < StandardError; end
 
-    def self.top_for_events(events, top = 100, market_projection = [MarketProjection::EVENT])
+    def self.top_for_events(events, limit = 1000, market_projection = [MarketProjection::EVENT])
       market_filter = MarketFilter.new.add_events(events)
-      market_datas = API::Client.list_market_catalogue(market_filter.to_hash, top, market_projection)
+      market_datas = API::Client.list_market_catalogue(market_filter.to_hash, limit, market_projection)
       market_datas.map{|data| new(data)}
     end
 

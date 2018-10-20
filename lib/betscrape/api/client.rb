@@ -8,7 +8,6 @@ module API
     KEYS_FOLDER = "#{File.expand_path('.')}/keys".freeze
 
     base_uri "https://api.betfair.com/exchange/betting/rest/v1.0/"
-    debug_output $stdout
 
     def self.list_event_types(market_filter = {})
       request('listEventTypes', {filter: market_filter})
@@ -30,12 +29,12 @@ module API
       request('listCountries', {filter: market_filter})
     end
 
-    def self.list_market_catalogue(market_filter = {}, max_results = 100, market_projection = [], market_sort = nil)
+    def self.list_market_catalogue(market_filter = {}, max_results = 1000, market_projection = [], market_sort = nil)
       raise 'max_results must be <= 1000' unless max_results <= 1000
       options = {filter: market_filter, maxResults: max_results}
       options[:marketProjection] = market_projection if market_projection.any?
       options[:sort] = market_sort if market_sort
-      request('listMarketCatalogue', options)
+      request('listMarketCatalogue', options, 20)
     end
 
     def self.list_market_book(market_ids = [], price_projection = nil, order_projection = nil)
@@ -47,11 +46,45 @@ module API
 
     private
 
-    def self.request(action, options = nil)
+    def self.request(action, options = nil, timeout = 10)
       body = options ? options.to_json : ''
-      response = post("/#{action}/", body: body, headers: headers)
+      begin
+        retries ||= 0
+        response = post("/#{action}/", body: body, headers: headers, timeout: timeout)
+      rescue Net::ReadTimeout
+        log_timeout_retry(action, options)
+        retry if (retries += 1) < 3
+        raise "request failed (too many retries): #{action}"
+      end
       #TODO - error handling
+      log_response(response, action, options)
       response.parsed_response
+    end
+
+    def self.log_response(response, action, options)
+      logger.info({
+        log_type: 'api_response',
+        action: action,
+        options: options,
+        response: response.parsed_response
+      })
+    end
+
+    def self.log_request_error(error_msg, action, options)
+      logger.error({
+        log_type: 'api_error',
+        action: action,
+        options: options,
+        error_msg: error_msg
+      })
+    end
+
+    def log_timeout_retry(action, options)
+      logger.warn({
+        log_type: 'api_retry',
+        action: action,
+        options: options,
+      })
     end
 
     def self.session_token
@@ -71,11 +104,15 @@ module API
     end
     
     def self.betfair_app_token
-      File.read(betfair_app_token_path)
+      @betfair_app_token ||= File.read(betfair_app_token_path)
     end
 
     def self.betfair_app_token_path
       "#{KEYS_FOLDER}/betfair_app_token"
+    end
+
+    def self.logger
+      @logger ||= API::Logger.new
     end
   end
 end

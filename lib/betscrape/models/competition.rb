@@ -34,9 +34,5 @@ module Models
     def name
       data.fetch('name')
     end
-
-    def self.english_premier_league
-      @english_premier_league ||= find("English Premier League", MarketFilter::BRITISH_FOOTBALL)
-    end
   end
 end
