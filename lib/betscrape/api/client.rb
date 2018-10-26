@@ -79,7 +79,7 @@ module API
       })
     end
 
-    def log_timeout_retry(action, options)
+    def self.log_timeout_retry(action, options)
       logger.warn({
         log_type: 'api_retry',
         action: action,
