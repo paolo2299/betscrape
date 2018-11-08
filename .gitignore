@@ -6,4 +6,7 @@ keys/betfair_app_token
 vendor/bundle
 
 test.rb
-api.log
+api.log*
+*.log
+*.err
+*.un~
