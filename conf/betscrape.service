@@ -1,0 +1,17 @@
+[Unit]
+Description=Betscrape scraper
+After=network.target
+
+[Service]
+User=pdlawson1
+LimitNOFILE=32768
+Restart=always
+RestartSec=1
+
+ExecStartPre=-/usr/bin/docker kill betscrape
+ExecStartPre=-/usr/bin/docker rm betscrape
+
+ExecStart=/usr/bin/docker run --name betscrape-epl -v /home/pdlawson1/betscrape/logs:/betscrape/logs betscrape:latest
+
+[Install]
+WantedBy=multi-user.target
