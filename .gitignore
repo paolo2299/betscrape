@@ -1,6 +1,7 @@
 keys/client*
 keys/credentials
 keys/betfair_app_token
+keys/betscrape*.json
 
 .bundle
 vendor/bundle
