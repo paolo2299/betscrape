@@ -9,7 +9,7 @@ module API
     attr_reader :logger
 
     def initialize
-      @logger ||= ::Logger.new('api.log', 'daily')
+      @logger ||= ::Logger.new('logs/english_premier_league.log', 'daily')
       logger.formatter = proc do |severity, datetime, progname, data|
         #msg_data = JSON.parse(msg)
         log_data = {

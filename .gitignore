@@ -8,6 +8,6 @@ vendor/bundle
 
 test.rb
 api.log*
-*.log
+logs/*.log*
 *.err
 *.un~
