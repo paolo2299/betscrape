@@ -112,7 +112,7 @@ module API
     end
 
     def self.logger
-      @logger ||= API::Logger.new
+      API::Logger.new
     end
   end
 end

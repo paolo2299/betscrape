@@ -14,5 +14,7 @@ class EnglishPremierLeague
   end
 end
 
+API::Logger.initialize('english-premier-league', "#{rand(36**4).to_s(36)}")
+
 scraper = CompetitionScraper.new(EnglishPremierLeague)
 scraper.scrape!
