@@ -10,7 +10,7 @@ RestartSec=1
 ExecStartPre=-/usr/bin/docker kill betscrape-epl
 ExecStartPre=-/usr/bin/docker rm betscrape-epl
 
-ExecStart=/usr/bin/docker run --name betscrape-epl -v /home/pdlawson1/betscrape/logs:/betscrape/logs:Z betscrape:latest bundle exec ruby bin/scrape/english_premier_league.rb
+ExecStart=/usr/bin/docker run --name betscrape-epl -v /home/pdlawson1/betscrape:/betscrape:Z -v /opt/betscrape/logs:/logs:Z betscrape:latest bundle exec ruby bin/scrape/english_premier_league.rb
 
 ExecStop=/usr/bin/docker stop betscrape-epl
 

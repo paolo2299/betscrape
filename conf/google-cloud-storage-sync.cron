@@ -1,0 +1,1 @@
+10 * * * * * gsutil cp /opt/betscrape/logs/* gs://betscrape-api-logs/
