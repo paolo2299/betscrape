@@ -1,0 +1,1 @@
+51 15 * * * root nice find /opt/betscrape/logs/ -daystart -mtime +0 -type f -exec rm {} \;

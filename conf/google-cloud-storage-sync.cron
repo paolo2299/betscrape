@@ -1,1 +1,1 @@
-10 * * * * * gsutil cp /opt/betscrape/logs/* gs://betscrape-api-logs/
+43 * * * * root gsutil cp /opt/betscrape/logs/* gs://betscrape-api-logs/
