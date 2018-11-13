@@ -27,7 +27,7 @@ module Models
     def to_hash
       h = {
         priceData: price_data,
-        virtualise: false
+        virtualise: virtualise?
       }
       h[:exBestOfferOverrides] = best_offer_overrides.to_hash if best_offer_overrides
       h[:rolloverStakes] = rollover_stakes? if false # not supported yet
