@@ -30,7 +30,7 @@ module API
           severity: severity,
           data: data
         }
-        "#{data.to_json}\n"
+        "#{log_data.to_json}\n"
       end
     end
 
