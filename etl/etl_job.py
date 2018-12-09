@@ -31,6 +31,7 @@ class ETLJob:
         self.name = name
         self.pipeline = beam.Pipeline(options=options)
         self.run_in_cloud = known_args.run_in_cloud
+        self.run_date = known_args.run_date
 
     @staticmethod
     def new_argparser():
@@ -40,6 +41,10 @@ class ETLJob:
                             type=bool,
                             default=False,
                             help='set to true to run in Google Cloud Dataflow. Otherwise will run locally')
+        parser.add_argument('--run-date',
+                            dest='run_date',
+                            type=string,
+                            help='date of logfiles to add to BigQuery. Should be of form YYYYMMDD')
         return parser
 
     @property

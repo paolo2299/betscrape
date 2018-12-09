@@ -384,7 +384,9 @@ def run(argv=None):
     
     loader = BigQueryLoader('logs')
 
-    filepath = "%s/*" % job.input_base_dir
+    run_date = job.run_date
+
+    filepath = "%s/*%s*" % (job.input_base_dir, job.run_date)
 
     # parse the logs
     lines = (pipeline
