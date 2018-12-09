@@ -189,7 +189,7 @@ class BigQueryLoader:
 
     def competition_sink(self):
         return beam.io.BigQuerySink(
-                  self.destination('competitions_partitioned'),
+                  self.destination('competitions'),
                   schema=self.competition_schema(),
                   create_disposition=beam.io.BigQueryDisposition.CREATE_NEVER,
                   write_disposition=beam.io.BigQueryDisposition.WRITE_APPEND
@@ -212,7 +212,7 @@ class BigQueryLoader:
 
     def event_sink(self):
         return beam.io.BigQuerySink(
-                  self.destination('events_partitioned'),
+                  self.destination('events'),
                   schema=self.event_schema(),
                   create_disposition=beam.io.BigQueryDisposition.CREATE_NEVER,
                   write_disposition=beam.io.BigQueryDisposition.WRITE_APPEND
@@ -239,7 +239,7 @@ class BigQueryLoader:
 
     def market_sink(self):
         return beam.io.BigQuerySink(
-                  self.destination('markets_partitioned'),
+                  self.destination('markets'),
                   schema=self.market_schema(),
                   create_disposition=beam.io.BigQueryDisposition.CREATE_NEVER,
                   write_disposition=beam.io.BigQueryDisposition.WRITE_APPEND
@@ -264,7 +264,7 @@ class BigQueryLoader:
 
     def runner_sink(self):
         return beam.io.BigQuerySink(
-                  self.destination('runners_partitioned'),
+                  self.destination('runners'),
                   schema=self.runner_schema(),
                   create_disposition=beam.io.BigQueryDisposition.CREATE_NEVER,
                   write_disposition=beam.io.BigQueryDisposition.WRITE_APPEND
@@ -291,7 +291,7 @@ class BigQueryLoader:
 
     def market_book_sink(self):
         return beam.io.BigQuerySink(
-                  self.destination('market_books_partitioned'),
+                  self.destination('market_books'),
                   schema=self.market_book_schema(),
                   create_disposition=beam.io.BigQueryDisposition.CREATE_NEVER,
                   write_disposition=beam.io.BigQueryDisposition.WRITE_APPEND
