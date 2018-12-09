@@ -2,7 +2,7 @@ module Models
   class Market
     class MissingProjectionError < StandardError; end
 
-    def self.top_for_events(events, limit = 1000, market_projection = [MarketProjection::EVENT])
+    def self.top_for_events(events, limit = 1000, market_projection = [MarketProjection::EVENT, MarketProjection::MARKET_START_TIME])
       market_filter = MarketFilter.new.add_events(events)
       market_datas = API::Client.list_market_catalogue(market_filter.to_hash, limit, market_projection)
       market_datas.map{|data| new(data)}
@@ -32,6 +32,10 @@ module Models
         raise MissingProjectionError msg
       end
       Time.parse(data.fetch('marketStartTime'))
+    end
+
+    def started?
+      Time.now >= market_start_time
     end
 
     def event

@@ -8,6 +8,7 @@ class CompetitionScraper
     competition: 60 * 60,
     events: 60 * 20,
     markets: 60 * 20,
+    all_market_books: 60 * 20,
   }
 
   attr_reader :target
@@ -51,7 +52,8 @@ class CompetitionScraper
           MARKETS_TO_REQUEST,
           [
             Models::MarketProjection::EVENT,
-            Models::MarketProjection::RUNNER_DESCRIPTION
+            Models::MarketProjection::RUNNER_DESCRIPTION,
+            Models::MarketProjection::MARKET_START_TIME
           ]
         )
         if slice_markets.size >= MARKETS_TO_REQUEST
@@ -66,7 +68,18 @@ class CompetitionScraper
 
   def market_books
     market_books = []
-    markets.each_slice(MARKET_BOOKS_TO_REQUEST) do |market_slice|
+
+    # Always fetch books for markets that have started, less often fetch all
+    # markets including those in the future
+    if @all_market_books_last_fetch.nil? or invalidate_cache?(:all_market_books, @all_market_books_last_fetch)
+      puts "fetching all market books"
+      markets_to_fetch = markets
+      @all_market_books_last_fetch = Time.now
+    else
+      puts "fetching in play market books"
+      markets_to_fetch = markets.select(&:started?)
+    end
+    markets_to_fetch.each_slice(MARKET_BOOKS_TO_REQUEST) do |market_slice|
       market_books += Models::MarketBook.for_markets(market_slice)
     end
     market_books
