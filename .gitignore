@@ -1,7 +1,6 @@
 keys/client*
 keys/credentials
 keys/betfair_app_token
-keys/betscrape*.json
 
 .bundle
 vendor/bundle
@@ -11,3 +10,9 @@ api.log*
 logs/*.log*
 *.err
 *.un~
+
+etl/betscrape_etl.egg-info
+etl/output
+etl/gcp/service_account.json
+etl/data/*.log
+*.pyc
