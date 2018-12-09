@@ -189,17 +189,17 @@ class BigQueryLoader:
 
     def competition_sink(self):
         return beam.io.BigQuerySink(
-                  self.destination('competitions'),
+                  self.destination('competitions_partitioned'),
                   schema=self.competition_schema(),
-                  create_disposition=beam.io.BigQueryDisposition.CREATE_IF_NEEDED,
-                  write_disposition=beam.io.BigQueryDisposition.WRITE_TRUNCATE
+                  create_disposition=beam.io.BigQueryDisposition.CREATE_NEVER,
+                  write_disposition=beam.io.BigQueryDisposition.WRITE_APPEND
                 )
 
     def competition_schema(self):
         return bigquery.TableSchema(
                 fields=[
                     bigquery.TableFieldSchema(
-                        name='timestamp', type='DATETIME', mode='REQUIRED'),
+                        name='timestamp', type='TIMESTAMP', mode='REQUIRED'),
                     bigquery.TableFieldSchema(
                         name='id', type='STRING', mode='REQUIRED'),
                     bigquery.TableFieldSchema(
@@ -212,17 +212,17 @@ class BigQueryLoader:
 
     def event_sink(self):
         return beam.io.BigQuerySink(
-                  self.destination('events'),
+                  self.destination('events_partitioned'),
                   schema=self.event_schema(),
-                  create_disposition=beam.io.BigQueryDisposition.CREATE_IF_NEEDED,
-                  write_disposition=beam.io.BigQueryDisposition.WRITE_TRUNCATE
+                  create_disposition=beam.io.BigQueryDisposition.CREATE_NEVER,
+                  write_disposition=beam.io.BigQueryDisposition.WRITE_APPEND
                 )
 
     def event_schema(self):
         return bigquery.TableSchema(
                 fields=[
                     bigquery.TableFieldSchema(
-                        name='timestamp', type='DATETIME', mode='REQUIRED'),
+                        name='timestamp', type='TIMESTAMP', mode='REQUIRED'),
                     bigquery.TableFieldSchema(
                         name='id', type='STRING', mode='REQUIRED'),
                     bigquery.TableFieldSchema(
@@ -239,17 +239,17 @@ class BigQueryLoader:
 
     def market_sink(self):
         return beam.io.BigQuerySink(
-                  self.destination('markets'),
+                  self.destination('markets_partitioned'),
                   schema=self.market_schema(),
-                  create_disposition=beam.io.BigQueryDisposition.CREATE_IF_NEEDED,
-                  write_disposition=beam.io.BigQueryDisposition.WRITE_TRUNCATE
+                  create_disposition=beam.io.BigQueryDisposition.CREATE_NEVER,
+                  write_disposition=beam.io.BigQueryDisposition.WRITE_APPEND
                 )
 
     def market_schema(self):
         return bigquery.TableSchema(
                 fields=[
                     bigquery.TableFieldSchema(
-                        name='timestamp', type='DATETIME', mode='REQUIRED'),
+                        name='timestamp', type='TIMESTAMP', mode='REQUIRED'),
                     bigquery.TableFieldSchema(
                         name='id', type='STRING', mode='REQUIRED'),
                     bigquery.TableFieldSchema(
@@ -259,22 +259,22 @@ class BigQueryLoader:
                     bigquery.TableFieldSchema(
                         name='event_id', type='STRING', mode='REQUIRED'),
                     bigquery.TableFieldSchema(
-                        name='start_time', type='DATETIME', mode='NULLABLE'),
+                        name='start_time', type='TIMESTAMP', mode='NULLABLE'),
                 ])
 
     def runner_sink(self):
         return beam.io.BigQuerySink(
-                  self.destination('runners'),
+                  self.destination('runners_partitioned'),
                   schema=self.runner_schema(),
-                  create_disposition=beam.io.BigQueryDisposition.CREATE_IF_NEEDED,
-                  write_disposition=beam.io.BigQueryDisposition.WRITE_TRUNCATE
+                  create_disposition=beam.io.BigQueryDisposition.CREATE_NEVER,
+                  write_disposition=beam.io.BigQueryDisposition.WRITE_APPEND
                 )
 
     def runner_schema(self):
         return bigquery.TableSchema(
                 fields=[
                     bigquery.TableFieldSchema(
-                        name='timestamp', type='DATETIME', mode='REQUIRED'),
+                        name='timestamp', type='TIMESTAMP', mode='REQUIRED'),
                     bigquery.TableFieldSchema(
                         name='selection_id', type='INTEGER', mode='REQUIRED'),
                     bigquery.TableFieldSchema(
@@ -291,17 +291,17 @@ class BigQueryLoader:
 
     def market_book_sink(self):
         return beam.io.BigQuerySink(
-                  self.destination('market_books'),
+                  self.destination('market_books_partitioned'),
                   schema=self.market_book_schema(),
-                  create_disposition=beam.io.BigQueryDisposition.CREATE_IF_NEEDED,
-                  write_disposition=beam.io.BigQueryDisposition.WRITE_TRUNCATE
+                  create_disposition=beam.io.BigQueryDisposition.CREATE_NEVER,
+                  write_disposition=beam.io.BigQueryDisposition.WRITE_APPEND
                 )
 
     def market_book_schema(self):
         return bigquery.TableSchema(
                 fields=[
                     bigquery.TableFieldSchema(
-                        name='timestamp', type='DATETIME', mode='REQUIRED'),
+                        name='timestamp', type='TIMESTAMP', mode='REQUIRED'),
                     bigquery.TableFieldSchema(
                         name='book_status', type='STRING', mode='REQUIRED'),
                     bigquery.TableFieldSchema(
@@ -358,8 +358,8 @@ class BigQueryLoader:
         return beam.io.BigQuerySink(
                   self.destination('errors'),
                   schema=self.error_schema(),
-                  create_disposition=beam.io.BigQueryDisposition.CREATE_IF_NEEDED,
-                  write_disposition=beam.io.BigQueryDisposition.WRITE_TRUNCATE
+                  create_disposition=beam.io.BigQueryDisposition.CREATE_NEVER,
+                  write_disposition=beam.io.BigQueryDisposition.WRITE_APPEND
                 )
 
     def error_schema(self):
