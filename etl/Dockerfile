@@ -12,3 +12,5 @@ RUN . python/bin/activate
 RUN cd python && pip install -r requirements.txt
 ADD gcp/service_account.json /gcp/service_account.json
 ENV GOOGLE_APPLICATION_CREDENTIALS=/gcp/service_account.json
+
+WORKDIR etl

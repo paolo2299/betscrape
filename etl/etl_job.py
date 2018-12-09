@@ -43,7 +43,7 @@ class ETLJob:
                             help='set to true to run in Google Cloud Dataflow. Otherwise will run locally')
         parser.add_argument('--run-date',
                             dest='run_date',
-                            type=string,
+                            type=str,
                             help='date of logfiles to add to BigQuery. Should be of form YYYYMMDD')
         return parser
 
