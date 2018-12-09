@@ -8,5 +8,6 @@ build: ## Build image with python and go dependencies - requires a vm-name to co
 	docker build -t betscrape-etl .
 
 console: ## Run the container and log you into a bash shell inside it
-	docker run -v ${CURDIR}:/etl -it betscrape-etl bash
+	docker run --rm -v ${CURDIR}:/etl -it betscrape-etl bash
+
 

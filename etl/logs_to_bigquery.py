@@ -60,6 +60,11 @@ class DataExtractor:
         dt = datetime.strptime(data['timestamp'][0:19], "%Y-%m-%d %H:%M:%S" )
         return dt.isoformat()
 
+    def format_datetime(self, dt):
+        from datetime import datetime
+        parsed = datetime.strptime(dt[0:19], "%Y-%m-%dT%H:%M:%S" )
+        return parsed.isoformat()
+
     def extract_competitions(self, data):
         ts = self.timestamp(data)
         competitions = data['data']['response']
@@ -97,13 +102,16 @@ class DataExtractor:
         ts = self.timestamp(data)
         markets = data['data']['response']
         for market in markets:
-            yield {
+            data = {
                 'timestamp': ts,
                 'total_matched': market['totalMatched'], # float
                 'name': market['marketName'],
                 'event_id': market['event']['id'],
-                'id': market['marketId'],
+                'id': market['marketId']
             }
+            if 'marketStartTime' in market:
+                data['start_time'] = self.format_datetime(market['marketStartTime'])
+            yield data 
 
     def extract_runner_metadata_from_catalogue(self, data):
         ts = self.timestamp(data)
@@ -250,6 +258,8 @@ class BigQueryLoader:
                         name='total_matched', type='FLOAT', mode='REQUIRED'),
                     bigquery.TableFieldSchema(
                         name='event_id', type='STRING', mode='REQUIRED'),
+                    bigquery.TableFieldSchema(
+                        name='start_time', type='DATETIME', mode='NULLABLE'),
                 ])
 
     def runner_sink(self):
