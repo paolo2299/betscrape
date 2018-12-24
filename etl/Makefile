@@ -10,5 +10,8 @@ build: ## Build image with python and go dependencies
 console: ## Run the container and log you into a bash shell inside it
 	docker run --rm -v ${CURDIR}:/etl:Z -it betscrape-etl bash
 
-run_for_date: ## Import logs for a specific date to BigQuery (use RUN_DATE env variable)
-	docker run --rm -v ${CURDIR}:/etl:Z betscrape-etl python logs_to_bigquery.py --run-in-cloud=True --run-date=${RUN_DATE}
+run_for_date: ## Import logs for a specific date to BigQuery (use RUN_DATE env variable e.g. RUN_DATE=20181225)
+	docker run --rm -v ${CURDIR}:/etl:Z betscrape-etl python logs_to_bigquery.py --run-date=${RUN_DATE}
+
+run_for_date_local: ## Import logs for a specific date to BigQuery (use RUN_DATE env variable e.g. RUN_DATE=20181225)
+	docker run --rm -v ${CURDIR}:/etl:Z betscrape-etl python logs_to_bigquery.py --run-local=True --run-date=${RUN_DATE}

@@ -22,7 +22,7 @@ class ETLJob:
             GoogleCloudOptions).staging_location = 'gs://load-jobs-temp/binaries'
         options.view_as(
             GoogleCloudOptions).temp_location = 'gs://load-jobs-temp/temp'
-        if known_args.run_in_cloud:
+        if not known_args.run_local:
             options.view_as(SetupOptions).setup_file = './setup.py'
             options.view_as(SetupOptions).sdk_location = './dependencies'
             options.view_as(GoogleCloudOptions).job_name = name
@@ -30,14 +30,14 @@ class ETLJob:
                 StandardOptions).runner = 'DataflowRunner'
         self.name = name
         self.pipeline = beam.Pipeline(options=options)
-        self.run_in_cloud = known_args.run_in_cloud
+        self.run_local = known_args.run_local
         self.run_date = known_args.run_date
 
     @staticmethod
     def new_argparser():
         parser = argparse.ArgumentParser()
-        parser.add_argument('--run-in-cloud',
-                            dest='run_in_cloud',
+        parser.add_argument('--run-local',
+                            dest='run_local',
                             type=bool,
                             default=False,
                             help='set to true to run in Google Cloud Dataflow. Otherwise will run locally')
@@ -49,8 +49,7 @@ class ETLJob:
 
     @property
     def input_base_dir(self):
-        if self.run_in_cloud:
-            return 'gs://betscrape-api-logs'
-            #return 'gs://betscrape-test-data'
-        else:
+        if self.run_local:
             return './data'
+        else:
+            return 'gs://betscrape-api-logs'
