@@ -29,14 +29,23 @@ class LogFilter:
     def is_api_response(self, data):
         return data['data']['log_type'] == 'api_response'
 
+    def is_empty_response(self, data):
+        return data['data']['response'] is None
+
     def is_error(self, data):
+        if self.is_empty_response(data):
+            return False
         return ('faultstring' in data['data']['response'])
 
     def is_error_response(self, data):
         return self.is_api_response(data) and self.is_error(data)
 
     def is_success_response(self, data):
-        return self.is_api_response(data) and not self.is_error(data)
+        if not self.is_api_response(data):
+            return False
+        if self.is_empty_response(data):
+            return False
+        return not self.is_error(data)
 
     def is_list_competition_response(self, data):
         return self.is_success_response(data) and (data['data']['action'] == 'listCompetitions')
