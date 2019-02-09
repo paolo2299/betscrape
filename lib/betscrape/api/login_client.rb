@@ -24,11 +24,11 @@ module API
     private
 
     def self.get_session_token
-      response = post('https://identitysso.betfair.com/api/certlogin', body: body, headers: headers)
+      response = post('https://identitysso-cert.betfair.com/api/certlogin', body: body, headers: headers)
       data = JSON.parse(response.parsed_response)
       login_status = data.fetch('loginStatus')
       unless login_status == 'SUCCESS'
-        raise LoginFailedError "login request failed with status: #{login_status}"
+        raise "login request failed with status: #{login_status}"
       end
       data.fetch('sessionToken')
     end
