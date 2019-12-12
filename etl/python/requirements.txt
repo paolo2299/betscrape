@@ -58,7 +58,7 @@ pytest==3.3.2
 pytest-cov==2.5.1
 pytz==2018.4
 PyVCF==0.6.8
-PyYAML==3.12
+PyYAML==5.1
 requests==2.18.4
 retry-decorator==1.1.0
 rsa==3.4.2
