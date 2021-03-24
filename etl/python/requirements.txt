@@ -61,7 +61,7 @@ PyVCF==0.6.8
 PyYAML==3.12
 requests==2.18.4
 retry-decorator==1.1.0
-rsa==3.4.2
+rsa==4.1
 six==1.11.0
 SocksiPy-branch==1.1
 typing==3.6.4
